@@ -8,6 +8,7 @@ import AppreciationPage from './pages/AppreciationPage';
 import ApologyPage from './pages/ApologyPage';
 import DatesPage from './pages/DatesPage';
 import HomePage from './pages/HomePage';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/appreciation" element={<AppreciationPage />} />
             <Route path="/apology" element={<ApologyPage />} />
             <Route path="/dates" element={<DatesPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
         

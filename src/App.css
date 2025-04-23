@@ -43,23 +43,25 @@ body {
 }
 
 .content-container {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
   margin: 20px auto;
   padding: 20px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
   z-index: 10;
   position: relative;
+  backdrop-filter: blur(5px);
 }
 
 /* Header & Navigation */
 header {
-  background-color: var(--primary-color);
+  background-color: rgba(255, 107, 107, 0.85);
   color: white;
   padding: 20px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 20;
+  backdrop-filter: blur(5px);
 }
 
 header h1 {
@@ -68,11 +70,12 @@ header h1 {
 }
 
 .main-nav {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 10px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 15;
+  backdrop-filter: blur(3px);
 }
 
 .main-nav ul {
@@ -124,7 +127,7 @@ header h1 {
 }
 
 .slideshow-image.active {
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 .slideshow-image.fade-out {
@@ -133,7 +136,7 @@ header h1 {
 
 /* Footer */
 footer {
-  background-color: var(--primary-color);
+  background-color: rgba(255, 107, 107, 0.85);
   color: white;
   padding: 15px 0;
   margin-top: auto;
@@ -141,6 +144,7 @@ footer {
   font-size: 0.9rem;
   position: relative;
   z-index: 20;
+  backdrop-filter: blur(5px);
 }
 
 /* Page Components */
@@ -176,6 +180,63 @@ footer {
   color: var(--text-color);
 }
 
+.todo-form input, 
+.wishlist-form input, 
+.letter-form textarea, 
+.date-form input,
+.upload-form input,
+.form-group input {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.todo-item, 
+.wishlist-item, 
+.letter-item, 
+.date-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(2px);
+}
+
+.todo-container, 
+.wishlist-container, 
+.letter-container, 
+.dates-container, 
+.emotion-meter,
+.upload-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
+}
+
+.upload-form,
+.todo-form, 
+.wishlist-form, 
+.letter-form, 
+.date-form {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+/* Fix for Chrome which doesn't support backdrop-filter well in some cases */
+@supports not (backdrop-filter: blur(5px)) {
+  .content-container,
+  .section-card,
+  .todo-container, 
+  .wishlist-container, 
+  .letter-container, 
+  .dates-container, 
+  .upload-container,
+  .emotion-meter,
+  header,
+  footer,
+  .main-nav {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
 input, textarea, select {
   width: 100%;
   padding: 10px 15px;
@@ -184,7 +245,6 @@ input, textarea, select {
   font-family: var(--font-family);
   font-size: 1rem;
   color: var(--text-color);
-  background-color: white;
   transition: border-color 0.2s;
 }
 
@@ -254,11 +314,12 @@ button:disabled {
 }
 
 .section-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(3px);
 }
 
 .section-card:hover {
@@ -275,6 +336,11 @@ button:disabled {
 .emotion-meter {
   max-width: 600px;
   margin: 0 auto 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
 }
 
 .emotion-meter h2 {
@@ -389,6 +455,11 @@ button:disabled {
 .todo-container {
   max-width: 800px;
   margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
 }
 
 .todo-form {
@@ -415,16 +486,23 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
-  background-color: white;
-  border-radius: 8px;
+  padding: 12px 15px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(240, 240, 240, 0.8);
+  transition: all 0.2s ease;
+}
+
+.todo-item.completed {
+  background-color: rgba(240, 240, 240, 0.5);
 }
 
 .todo-item:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .todo-item.completed .todo-text {
@@ -513,6 +591,11 @@ button:disabled {
 .wishlist-container {
   max-width: 800px;
   margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
 }
 
 .wishlist-form {
@@ -664,6 +747,11 @@ button:disabled {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
 }
 
 .letter-list {
@@ -767,6 +855,11 @@ button:disabled {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(3px);
 }
 
 .date-form {
@@ -879,7 +972,7 @@ button:disabled {
   color: var(--text-light);
 }
 
-/* Responsive Styles */
+/* Mobile & Responsive Adjustments */
 @media (max-width: 768px) {
   .letter-container {
     grid-template-columns: 1fr;
@@ -894,7 +987,7 @@ button:disabled {
   }
   
   .main-nav li {
-    margin-bottom: 5px;
+    margin: 0 5px;
   }
   
   .wishlist-items {
@@ -904,4 +997,66 @@ button:disabled {
   .sections-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Increase background container opacity on mobile for readability */
+  .content-container {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .todo-container, 
+  .wishlist-container, 
+  .letter-container, 
+  .dates-container, 
+  .emotion-meter,
+  .upload-container,
+  .section-card {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  
+  /* Many mobile browsers don't support backdrop-filter */
+  .content-container,
+  .section-card,
+  .todo-container, 
+  .wishlist-container, 
+  .letter-container, 
+  .dates-container, 
+  .upload-container,
+  .emotion-meter,
+  header,
+  footer,
+  .main-nav,
+  .todo-item, 
+  .wishlist-item, 
+  .letter-item, 
+  .date-card {
+    backdrop-filter: none;
+  }
+}
+
+/* Fix for Safari which requires prefixed backdrop-filter */
+@supports (-webkit-backdrop-filter: blur(5px)) and (not (backdrop-filter: blur(5px))) {
+  .content-container,
+  .section-card,
+  .todo-container, 
+  .wishlist-container, 
+  .letter-container, 
+  .dates-container, 
+  .upload-container,
+  .emotion-meter,
+  header,
+  footer,
+  .main-nav {
+    -webkit-backdrop-filter: blur(5px);
+  }
+  
+  .todo-item, 
+  .wishlist-item, 
+  .letter-item, 
+  .date-card {
+    -webkit-backdrop-filter: blur(2px);
+  }
+}
+
+.image-debug {
+  background-color: rgba(255, 255, 255, 0.9) !important;
 } 
