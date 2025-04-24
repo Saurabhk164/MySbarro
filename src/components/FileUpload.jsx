@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
+import { useUser } from '../contexts/UserContext';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [downloadURL, setDownloadURL] = useState(null);
+  const { currentUser } = useUser();
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -19,8 +21,8 @@ const FileUpload = () => {
     try {
       setUploading(true);
       
-      // Create a reference to the file in Firebase Storage
-      const storageRef = ref(storage, `uploads/${file.name}`);
+      // Create a reference to the file in Firebase Storage with user-specific path
+      const storageRef = ref(storage, `uploads/${currentUser}/${file.name}`);
       
       // Upload the file
       const snapshot = await uploadBytes(storageRef, file);
@@ -40,7 +42,7 @@ const FileUpload = () => {
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">Upload File to Firebase Storage</h2>
+      <h2 className="text-xl font-bold mb-4">{currentUser}'s File Upload</h2>
       
       <div className="mb-4">
         <input 

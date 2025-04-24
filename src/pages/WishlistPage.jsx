@@ -5,9 +5,11 @@ import {
   query, 
   onSnapshot,
   doc,
-  deleteDoc
+  deleteDoc,
+  where
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useUser } from '../contexts/UserContext';
 
 const PRIORITY_LABELS = {
   1: 'Low',
@@ -23,10 +25,14 @@ const WishlistPage = () => {
     priority: 2
   });
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useUser();
 
   useEffect(() => {
-    // Create a query against the "wishlist" collection
-    const q = query(collection(db, 'wishlist'));
+    // Create a query against the "wishlist" collection for the current user
+    const q = query(
+      collection(db, 'wishlist'),
+      where("user", "==", currentUser)
+    );
     
     // Listen for real-time updates
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -50,7 +56,7 @@ const WishlistPage = () => {
     
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,6 +76,7 @@ const WishlistPage = () => {
       // Add a new document to the "wishlist" collection
       await addDoc(collection(db, 'wishlist'), {
         ...newItem,
+        user: currentUser,
         createdAt: new Date()
       });
       
@@ -95,8 +102,8 @@ const WishlistPage = () => {
   return (
     <div className="wishlist-page">
       <div className="page-header">
-        <h1>Our Wishlist</h1>
-        <p>Items we'd love to have someday</p>
+        <h1>{currentUser}'s Wishlist</h1>
+        <p>Items {currentUser} would love to have someday</p>
       </div>
       
       <div className="content-section">

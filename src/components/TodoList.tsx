@@ -6,24 +6,31 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
-  updateDoc
+  updateDoc,
+  where
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useUser } from '../contexts/UserContext';
 
 interface Todo {
   id: string;
   text: string;
   completed: boolean;
+  user: string;
 }
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState('');
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useUser();
 
   useEffect(() => {
-    // Create a query against the "todos" collection
-    const q = query(collection(db, 'todos'));
+    // Create a query against the "todos" collection for the current user
+    const q = query(
+      collection(db, 'todos'),
+      where("user", "==", currentUser)
+    );
     
     // Listen for real-time updates
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -32,7 +39,8 @@ const TodoList: React.FC = () => {
         todosData.push({
           id: doc.id,
           text: doc.data().text,
-          completed: doc.data().completed
+          completed: doc.data().completed,
+          user: doc.data().user
         });
       });
       
@@ -45,7 +53,7 @@ const TodoList: React.FC = () => {
     
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   const handleAddTodo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +65,8 @@ const TodoList: React.FC = () => {
       await addDoc(collection(db, 'todos'), {
         text: newTodo,
         completed: false,
-        createdAt: new Date()
+        createdAt: new Date(),
+        user: currentUser
       });
       
       setNewTodo('');
@@ -87,7 +96,7 @@ const TodoList: React.FC = () => {
 
   return (
     <div className="p-4 bg-white shadow rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Firebase Firestore Todo List</h2>
+      <h2 className="text-xl font-bold mb-4">{currentUser}'s Todo List</h2>
       
       {/* Add Todo Form */}
       <form onSubmit={handleAddTodo} className="mb-6">

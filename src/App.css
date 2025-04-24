@@ -64,6 +64,12 @@ header {
   backdrop-filter: blur(5px);
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 header h1 {
   font-size: 2rem;
   margin-bottom: 5px;
@@ -118,17 +124,16 @@ header h1 {
 .slideshow-image {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
+  width: 50%; /* Set default width to 50% */
 }
 
 .slideshow-image.active {
-  opacity: 0.65;
+  opacity: 0.85; /* Increased from 0.65 for better visibility */
 }
 
 .slideshow-image.fade-out {
@@ -1086,4 +1091,37 @@ button:disabled {
 
 .image-debug {
   background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* User Switcher */
+.user-switcher {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  margin-left: auto;
+  backdrop-filter: blur(3px);
+}
+
+.user-select-label {
+  margin-right: 10px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.user-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--primary-light);
+  background-color: white;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.user-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
 } 
