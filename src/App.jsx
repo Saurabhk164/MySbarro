@@ -7,6 +7,7 @@ import WishlistPage from './pages/WishlistPage';
 import AppreciationPage from './pages/AppreciationPage';
 import ApologyPage from './pages/ApologyPage';
 import DatesPage from './pages/DatesPage';
+import DateGalleryPage from './pages/DateGalleryPage';
 import HomePage from './pages/HomePage';
 import AdminPage from './pages/AdminPage';
 import { UserProvider } from './contexts/UserContext';
@@ -40,6 +41,7 @@ function App() {
                 <li><Link to="/appreciation">Appreciation</Link></li>
                 <li><Link to="/apology">Apology</Link></li>
                 <li><Link to="/dates">Dates</Link></li>
+                <li><Link to="/gallery">Date Gallery</Link></li>
               </ul>
             </div>
           </nav>
@@ -52,6 +54,7 @@ function App() {
               <Route path="/appreciation" element={<AppreciationPage />} />
               <Route path="/apology" element={<ApologyPage />} />
               <Route path="/dates" element={<DatesPage />} />
+              <Route path="/gallery" element={<DateGalleryPage />} />
               <Route path="/admin" element={<AdminPage />} />
             </Routes>
           </main>
