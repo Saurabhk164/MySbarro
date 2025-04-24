@@ -6,18 +6,24 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
-  updateDoc
+  updateDoc,
+  where
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useUser } from '../contexts/UserContext';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useUser();
 
   useEffect(() => {
-    // Create a query against the "todos" collection
-    const q = query(collection(db, 'todos'));
+    // Create a query against the "todos" collection for the current user
+    const q = query(
+      collection(db, 'todos'),
+      where("user", "==", currentUser)
+    );
     
     // Listen for real-time updates
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -26,7 +32,8 @@ const TodoList = () => {
         todosData.push({
           id: doc.id,
           text: doc.data().text,
-          completed: doc.data().completed
+          completed: doc.data().completed,
+          user: doc.data().user
         });
       });
       
@@ -39,7 +46,7 @@ const TodoList = () => {
     
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   const handleAddTodo = async (e) => {
     e.preventDefault();
@@ -51,7 +58,8 @@ const TodoList = () => {
       await addDoc(collection(db, 'todos'), {
         text: newTodo,
         completed: false,
-        createdAt: new Date()
+        createdAt: new Date(),
+        user: currentUser
       });
       
       setNewTodo('');
@@ -80,8 +88,8 @@ const TodoList = () => {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl font-bold mb-4">Firebase Firestore Todo List</h2>
+    <div className="p-4 bg-white shadow rounded-lg">
+      <h2 className="text-xl font-bold mb-4">{currentUser}'s Todo List</h2>
       
       {/* Add Todo Form */}
       <form onSubmit={handleAddTodo} className="mb-6">
@@ -91,11 +99,11 @@ const TodoList = () => {
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
             placeholder="Add a new todo..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded-r-md"
+            className="px-4 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600"
           >
             Add
           </button>
@@ -120,7 +128,7 @@ const TodoList = () => {
                     type="checkbox"
                     checked={todo.completed}
                     onChange={() => handleToggleComplete(todo)}
-                    className="h-5 w-5 mr-3"
+                    className="h-5 w-5 text-blue-600 mr-3"
                   />
                   <span className={todo.completed ? 'line-through text-gray-400' : ''}>
                     {todo.text}
@@ -128,7 +136,7 @@ const TodoList = () => {
                 </div>
                 <button
                   onClick={() => handleDeleteTodo(todo.id)}
-                  className="text-red-500"
+                  className="text-red-500 hover:text-red-700"
                 >
                   Delete
                 </button>

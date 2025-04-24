@@ -1,5 +1,11 @@
 {
   "projects": {
     "default": "sbarrospace"
+  },
+  "targets": {},
+  "etags": {
+    "sbarrospace": {
+      "extensionInstances": {}
+    }
   }
 }

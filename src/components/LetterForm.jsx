@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useUser } from '../contexts/UserContext';
 
 const LetterForm = ({ collectionName, letterType, onSuccess }) => {
+  const { currentUser } = useUser();
+  const recipient = currentUser === 'Saurabh' ? 'Nirupa' : 'Saurabh';
+  
   const [letter, setLetter] = useState({
     title: '',
-    content: ''
+    content: '',
+    from: currentUser,
+    to: recipient
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -27,13 +33,17 @@ const LetterForm = ({ collectionName, letterType, onSuccess }) => {
     try {
       await addDoc(collection(db, collectionName), {
         ...letter,
+        from: currentUser,
+        to: recipient,
         createdAt: new Date()
       });
       
       // Reset form
       setLetter({
         title: '',
-        content: ''
+        content: '',
+        from: currentUser,
+        to: recipient
       });
       
       if (onSuccess) {
@@ -48,6 +58,12 @@ const LetterForm = ({ collectionName, letterType, onSuccess }) => {
   
   return (
     <form onSubmit={handleSubmit} className="letter-form">
+      <div className="letter-recipient-info">
+        <p className="from-to-info">
+          <strong>From:</strong> {currentUser} <strong>To:</strong> {recipient}
+        </p>
+      </div>
+      
       <div className="form-group">
         <label htmlFor="letter-title">Title</label>
         <input
@@ -69,7 +85,7 @@ const LetterForm = ({ collectionName, letterType, onSuccess }) => {
           name="content"
           value={letter.content}
           onChange={handleInputChange}
-          placeholder={`Write your ${letterType.toLowerCase()} here...`}
+          placeholder={`Write your ${letterType.toLowerCase()} to ${recipient} here...`}
           required
           rows={8}
           className="letter-textarea"
@@ -81,7 +97,7 @@ const LetterForm = ({ collectionName, letterType, onSuccess }) => {
         className="letter-submit-btn"
         disabled={isSubmitting}
       >
-        {isSubmitting ? 'Sending...' : `Send ${letterType}`}
+        {isSubmitting ? 'Sending...' : `Send ${letterType} to ${recipient}`}
       </button>
     </form>
   );

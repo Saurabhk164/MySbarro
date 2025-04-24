@@ -1,7 +1,7 @@
 import React from 'react';
 import { useUser } from '../contexts/UserContext';
 
-const UserSwitcher: React.FC = () => {
+const UserSwitcher = () => {
   const { currentUser, setCurrentUser } = useUser();
 
   return (
@@ -10,7 +10,7 @@ const UserSwitcher: React.FC = () => {
       <select 
         id="user-select"
         value={currentUser}
-        onChange={(e) => setCurrentUser(e.target.value as 'Saurabh' | 'Nirupa')}
+        onChange={(e) => setCurrentUser(e.target.value)}
         className="user-select"
       >
         <option value="Saurabh">Saurabh</option>

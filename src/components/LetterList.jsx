@@ -80,6 +80,10 @@ const LetterList = ({ collectionName, letterType }) => {
           >
             <h3 className="letter-title">{letter.title}</h3>
             <div className="letter-date">{formatDate(letter.createdAt)}</div>
+            <div className="letter-correspondence">
+              <span className="letter-from">From: {letter.fromName || 'Anonymous'}</span>
+              <span className="letter-to">To: {letter.toName || 'Anonymous'}</span>
+            </div>
             <div className="letter-preview">
               {letter.content.length > 100
                 ? `${letter.content.slice(0, 100)}...`
@@ -95,6 +99,10 @@ const LetterList = ({ collectionName, letterType }) => {
           <div className="letter-detail-header">
             <h3>{selectedLetter.title}</h3>
             <div className="letter-detail-date">{formatDate(selectedLetter.createdAt)}</div>
+            <div className="letter-detail-correspondence">
+              <div className="letter-detail-from">From: {selectedLetter.fromName || 'Anonymous'}</div>
+              <div className="letter-detail-to">To: {selectedLetter.toName || 'Anonymous'}</div>
+            </div>
           </div>
           <div className="letter-detail-content">
             {selectedLetter.content.split('\n').map((paragraph, i) => (
